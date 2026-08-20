@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
-from physics import (gravity_force, net_forces, calculate_acceleration, update_position, update_velocity)
-from constants import GRAVITY, TIMESTEP
+import utilities.physics as phys
+import utilities.constants as consts
+from drone import Drone
 
 # Initial Conditions - maybe will move these to drone.py or constants.py later
 
@@ -16,22 +17,24 @@ time_history = []
 position_history = []
 velocity_history = []
 
+skydiox10d = Drone()
+
 # Simulation loop
 
 while time < simulation_time:
 
     # Calculate the forces
-    Fg = gravity_force(mass)
+    Fg = phys.gravity_force(skydiox10d.mass)
 
-    Fnet = net_forces([Fg])
+    Fnet = phys.net_forces([Fg])
 
     # Calculate acceleration
-    acceleration = calculate_acceleration(Fnet, mass)
+    acceleration = phys.calculate_acceleration(Fnet, skydiox10d.mass)
 
     # Calculate position and velocity
-    velocity = update_velocity(velocity, acceleration, TIMESTEP)
+    velocity = phys.update_velocity(skydiox10d.velocity, acceleration, consts.TIMESTEP)
 
-    position = update_position(position, velocity, TIMESTEP)
+    position = phys.update_position(skydiox10d.position, velocity, consts.TIMESTEP)
 
     # Storing data
     time_history.append(time)
@@ -39,7 +42,7 @@ while time < simulation_time:
     velocity_history.append(velocity)
 
     # Update time
-    time += TIMESTEP
+    time += consts.TIMESTEP
 
 # Plot
 

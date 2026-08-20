@@ -1,5 +1,5 @@
 import numpy as np
-import constants
+import constants as consts
 
 """ Contains the physics equations used in the simulation."""
 
@@ -15,7 +15,7 @@ def gravity_force(mass):
     Returns:
     force : float (N)
     """
-    return -mass * constants.GRAVITY
+    return -mass * consts.GRAVITY
 
 # SUM OF FORCES
 
