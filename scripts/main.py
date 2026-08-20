@@ -4,7 +4,7 @@ from constants import GRAVITY, TIMESTEP
 
 # Initial Conditions - maybe will move these to drone.py or constants.py later
 
-mass = 1 # kg 
+mass = 1 # kg
 velocity = 10 # m/s
 position = 500 # m
 time = 0 # s

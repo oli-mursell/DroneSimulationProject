@@ -12,3 +12,7 @@
 ### 29.07.26
 - Start on the drone.py section and get its values and position sorted - start making some assumptions on it as well
 - Start on the main.py section and start the implementation of physics.py and getting a loop. This is more of a test to figure out whether the loop works because then I can just add on more data e.g. air density, air resistance, drag etc. 
+
+### 20.08.26
+- Completed majority of drone.py but will need to find an example model to use as a reference for the simulation. Will then insert the new drone.py values into the main.py simulation loop.
+- Will use the Skydio X10D quadcopter as a reference size for the project. 

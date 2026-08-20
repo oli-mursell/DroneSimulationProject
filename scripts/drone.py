@@ -8,38 +8,18 @@ class Drone:
         1. Physical properties of the drone
         2. Current state of drone during a simulation
     """
-    def __init__(
-            self, 
-            mass=1.5,
-            name="Quadcopter",
-            arm_length=None,
-            body_length=None,
-            body_width=None,
-            body_height=None,
-            max_motor_speed=None,
-            thrust_coefficient=None, 
-        ):
+    def __init__(self):
         
-        # Mass of the drone in kg
-        self.mass = mass
+        # Mass of the drone in kg - with Connect SL
+        self.mass = 2.11
 
         # Identifying name of the drone
-        self.name = name
+        self.name = "Skydio X10D"
 
-        # Physical dimensions of the drone
-        self.arm_length = arm_length
-        self.body_length = body_length
-        self.body_width = body_width
-        self.body_height = body_height
-
-        # Maximum motor rotational speed in RPM
-        self.max_motor_speed = max_motor_speed
-
-        # Motor speeds - Front left = 1, Front right = 2, Rear left = 3, Rear right = 4
-        self.motor_speeds = [0.0, 0.0, 0.0, 0.0]
-
-        # Thrust coefficient for the drone
-        self.thrust_coefficient = thrust_coefficient
+        # Physical dimensions of the unfolded drone in meters
+        self.overall_length = 0.790
+        self.overall_width = 0.650
+        self.overall_height = 0.145
 
         # Vertical Position in metres
         self.position = 0
@@ -52,9 +32,6 @@ class Drone:
 
         # Current Gravitational Force in Newtons
         self.gravitational_force = 0
-
-        # Current Thrust Force in Newtons
-        self.thrust_force = 0
 
         # Net Force acting on Drone in Newtons
         self.net_force = 0
