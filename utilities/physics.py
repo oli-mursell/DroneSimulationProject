@@ -1,5 +1,5 @@
 import numpy as np
-import constants as consts
+from . import constants as consts
 
 """ Contains the physics equations used in the simulation."""
 

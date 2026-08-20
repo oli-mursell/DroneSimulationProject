@@ -1,15 +1,14 @@
 import matplotlib.pyplot as plt
+import drone_models
 import utilities.physics as phys
 import utilities.constants as consts
-from drone import Drone
 
 # Initial Conditions - maybe will move these to drone.py or constants.py later
 
-mass = 1 # kg
-velocity = 10 # m/s
-position = 500 # m
-time = 0 # s
 simulation_time = 10 # s
+initial_velocity = 10 # m/s
+time = 1 # s
+initial_position = 500 # m
 
 # Storage Information
 
@@ -17,32 +16,32 @@ time_history = []
 position_history = []
 velocity_history = []
 
-skydiox10d = Drone()
+skydio_drone = drone_models.Skydiox10D(
+    initial_position=initial_position,
+    initial_velocity=initial_velocity
+)
 
 # Simulation loop
 
-while time < simulation_time:
+while time <= simulation_time:
 
     # Calculate the forces
-    Fg = phys.gravity_force(skydiox10d.mass)
-
+    Fg = skydio_drone.gravitational_force
     Fnet = phys.net_forces([Fg])
 
     # Calculate acceleration
-    acceleration = phys.calculate_acceleration(Fnet, skydiox10d.mass)
+    acceleration = skydio_drone.acceleration
 
     # Calculate position and velocity
-    velocity = phys.update_velocity(skydiox10d.velocity, acceleration, consts.TIMESTEP)
-
-    position = phys.update_position(skydiox10d.position, velocity, consts.TIMESTEP)
-
-    # Storing data
-    time_history.append(time)
-    position_history.append(position)
-    velocity_history.append(velocity)
+    skydio_drone.update_status()
 
     # Update time
     time += consts.TIMESTEP
+
+    # Storing data
+    time_history.append(time)
+    position_history.append(skydio_drone.get_status()[0])
+    velocity_history.append(skydio_drone.get_status()[1])
 
 # Plot
 
