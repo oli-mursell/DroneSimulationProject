@@ -68,7 +68,6 @@ def update_velocity(velocity, acceleration, dt):
 def update_position(position, velocity, dt):
     """Updates position of the object given its velocity and dt.
     x = x0 + v*dt
-    
     Parameters:
     position : float (m)
     velocity : float (m/s)

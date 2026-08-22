@@ -1,9 +1,11 @@
-""" Contains the Drone class and its data """
+""" Contains the Drone class """
 
+from abc import ABC
 import utilities.constants as consts
 import utilities.physics as phys
 
-class Drone:
+# Abstract class for a drone
+class Drone(ABC):
     """
     Represents a quadcopter and its physical properties.
 

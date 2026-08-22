@@ -15,4 +15,4 @@
 
 ### 20.08.26
 - Completed majority of drone.py but will need to find an example model to use as a reference for the simulation. Will then insert the new drone.py values into the main.py simulation loop.
-- Will use the Skydio X10D quadcopter as a reference size for the project. 
+- Will use the Skydio X10D quadcopter as a reference size for the project - changed to the Holybro X650 as the SkydioX10D had little public information on specifications. 

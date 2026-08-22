@@ -16,7 +16,7 @@ time_history = []
 position_history = []
 velocity_history = []
 
-skydio_drone = drone_models.Skydiox10D(
+holybro_drone = drone_models.HolybroX650(
     initial_position=initial_position,
     initial_velocity=initial_velocity
 )
@@ -26,22 +26,22 @@ skydio_drone = drone_models.Skydiox10D(
 while time <= simulation_time:
 
     # Calculate the forces
-    Fg = skydio_drone.gravitational_force
+    Fg = holybro_drone.gravitational_force
     Fnet = phys.net_forces([Fg])
 
     # Calculate acceleration
-    acceleration = skydio_drone.acceleration
+    acceleration = holybro_drone.acceleration
 
     # Calculate position and velocity
-    skydio_drone.update_status()
+    holybro_drone.update_status()
 
     # Update time
     time += consts.TIMESTEP
 
     # Storing data
     time_history.append(time)
-    position_history.append(skydio_drone.get_status()[0])
-    velocity_history.append(skydio_drone.get_status()[1])
+    position_history.append(holybro_drone.get_status()[0])
+    velocity_history.append(holybro_drone.get_status()[1])
 
 # Plot
 
