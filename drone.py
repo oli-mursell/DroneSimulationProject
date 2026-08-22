@@ -21,7 +21,8 @@ class Drone(ABC):
             overall_width=None,
             overall_height=None, 
             initial_position=0, 
-            initial_velocity=0, 
+            initial_velocity=0,
+            motors=None 
             ):
         
         # Mass of the drone in kg 
@@ -40,6 +41,9 @@ class Drone(ABC):
 
         # Vertical Velocity in metres/second
         self._velocity = initial_velocity
+
+        # List of motors on the drone
+        self._motors = motors if motors is not None else []
 
     @property
     def mass(self):
@@ -67,6 +71,11 @@ class Drone(ABC):
         return self._overall_height
 
     @property
+    def total_thrust(self):
+        """ Returns the total thrust produced by all motors in Newtons """
+        return sum(motor.current_thrust for motor in self._motors)
+
+    @property
     def gravitational_force(self):
         """ Returns the gravitational force acting on the drone in Newtons """
         return -self._mass * consts.GRAVITY
@@ -74,7 +83,15 @@ class Drone(ABC):
     @property
     def acceleration(self):
         """ Returns the current vertical acceleration of the drone in meters/second^2 """
-        return phys.calculate_acceleration(self.gravitational_force, self._mass)
+        net_force = phys.net_forces([self.gravitational_force, self.total_thrust])
+        return phys.calculate_acceleration(net_force, self._mass)
+
+    def set_motor_thrusts(self, thrusts):
+        """ Sets the thrusts of the motors on the drone """
+        if len(thrusts) != len(self._motors):
+            raise ValueError("Number of thrusts must match number of motors.")
+        for motor, thrust in zip(self._motors, thrusts):
+            motor.set_thrust(thrust)
 
     def update_status(self):
         """ Updates the drone's position and velocity based on its acceleration and the time step """

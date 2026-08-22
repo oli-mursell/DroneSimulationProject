@@ -1,5 +1,6 @@
 """ Contains different drone models and their properties """
 from drone import Drone
+from motors import Motor
 
 class HolybroX650(Drone):
     """
@@ -13,6 +14,14 @@ class HolybroX650(Drone):
                 initial_position=0,
                 initial_velocity=0):
 
+        # X650 Quadcopter Specifications
+        motors = [
+            Motor(max_thrust=15),  # Motor 1
+            Motor(max_thrust=15),  # Motor 2
+            Motor(max_thrust=15),  # Motor 3
+            Motor(max_thrust=15)   # Motor 4
+        ]
+
         super().__init__(
             mass=2.00,
             name="Holybro X650",
@@ -20,5 +29,6 @@ class HolybroX650(Drone):
             overall_width=0.460,
             overall_height=0.398,
             initial_position=initial_position,
-            initial_velocity=initial_velocity
+            initial_velocity=initial_velocity,
+            motors=motors
             )
