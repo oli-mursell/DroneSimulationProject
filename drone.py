@@ -12,6 +12,7 @@ class Drone(ABC):
     This class stores:
         1. Physical properties of the drone
         2. Current state of drone during a simulation
+        3. Motors on the drone and their properties
     """
     def __init__(
             self, 
@@ -71,9 +72,19 @@ class Drone(ABC):
         return self._overall_height
 
     @property
+    def motors(self):
+        """ Returns the list of motors on the drone """
+        return self._motors
+
+    @property
     def total_thrust(self):
         """ Returns the total thrust produced by all motors in Newtons """
         return sum(motor.current_thrust for motor in self._motors)
+
+    @property
+    def total_torque(self):
+        """ Returns the total torque produced by all motors in Newton-meters """
+        return sum(motor.current_torque for motor in self._motors)
 
     @property
     def gravitational_force(self):
@@ -81,17 +92,21 @@ class Drone(ABC):
         return -self._mass * consts.GRAVITY
 
     @property
+    def net_force(self):
+        """ Returns the net force acting on the drone in Newtons """
+        return phys.net_forces([self.gravitational_force, self.total_thrust])
+
+    @property
     def acceleration(self):
         """ Returns the current vertical acceleration of the drone in meters/second^2 """
-        net_force = phys.net_forces([self.gravitational_force, self.total_thrust])
-        return phys.calculate_acceleration(net_force, self._mass)
+        return phys.calculate_acceleration(self.net_force, self._mass)
 
-    def set_motor_thrusts(self, thrusts):
-        """ Sets the thrusts of the motors on the drone """
-        if len(thrusts) != len(self._motors):
-            raise ValueError("Number of thrusts must match number of motors.")
-        for motor, thrust in zip(self._motors, thrusts):
-            motor.set_thrust(thrust)
+    def set_motor_throttles(self, throttles):
+        """ Sets the throttles of the motors on the drone """
+        if len(throttles) != len(self._motors):
+            raise ValueError("Number of throttles must match number of motors.")
+        for motor, throttle in zip(self._motors, throttles):
+            motor.set_throttle(throttle)
 
     def update_status(self):
         """ Updates the drone's position and velocity based on its acceleration and the time step """

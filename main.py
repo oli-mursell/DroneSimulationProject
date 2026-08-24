@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import drone_models
-import utilities.physics as phys
 import utilities.constants as consts
 
 # Initial Conditions - maybe will move these to drone.py or constants.py later
@@ -15,35 +14,43 @@ initial_position = 0 # m
 time_history = []
 position_history = []
 velocity_history = []
+acceleration_history = []
+thrust_history = []
 
 holybro_drone = drone_models.HolybroX650(
     initial_position=initial_position,
     initial_velocity=initial_velocity
 )
 
-holybro_drone.set_motor_thrusts([5.0, 5.0, 5.0, 5.0])
+holybro_drone.set_motor_throttles([0.7, 0.7, 0.7, 0.7])  # Set all motors to X% throttle
 
 # Simulation loop
 
 while time <= simulation_time:
 
-    # Calculate the forces
-    Fg = holybro_drone.gravitational_force
-    Fnet = phys.net_forces([Fg])
+    # Stores current state of drone before updating
+    position, velocity = holybro_drone.get_status()
 
-    # Calculate acceleration
-    acceleration = holybro_drone.acceleration
+    # Storing data
+    time_history.append(time)
+    position_history.append(position)
+    velocity_history.append(velocity)
+    acceleration_history.append(holybro_drone.acceleration)
+    thrust_history.append(holybro_drone.total_thrust)
 
-    # Calculate position and velocity
+    # Advance the simulation by one timestep
     holybro_drone.update_status()
 
     # Update time
     time += consts.TIMESTEP
 
-    # Storing data
-    time_history.append(time)
-    position_history.append(holybro_drone.get_status()[0])
-    velocity_history.append(holybro_drone.get_status()[1])
+print(
+    f"Time: {time:.2f} s | "
+    f"Thrust: {holybro_drone.total_thrust:.2f} N | "
+    f"Weight: {-holybro_drone.gravitational_force:.2f} N | "
+    f"Net force: {holybro_drone.net_force:.2f} N | "
+    f"Acceleration: {holybro_drone.acceleration:.2f} m/s^2"
+)
 
 # Plot
 

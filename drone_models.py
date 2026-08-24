@@ -1,6 +1,7 @@
 """ Contains different drone models and their properties """
 from drone import Drone
 from motors import Motor
+from motor_data import X650_MOTOR_DATA
 
 class HolybroX650(Drone):
     """
@@ -14,16 +15,19 @@ class HolybroX650(Drone):
                 initial_position=0,
                 initial_velocity=0):
 
-        # X650 Quadcopter Specifications
         motors = [
-            Motor(max_thrust=15),  # Motor 1
-            Motor(max_thrust=15),  # Motor 2
-            Motor(max_thrust=15),  # Motor 3
-            Motor(max_thrust=15)   # Motor 4
+            Motor(
+                max_rpm=X650_MOTOR_DATA["max_rpm"],
+                throttle_data=X650_MOTOR_DATA["throttle"],
+                rpm_data=X650_MOTOR_DATA["rpm"],
+                thrust_data=X650_MOTOR_DATA["thrust"],
+                torque_data=X650_MOTOR_DATA["torque"]
+            ) 
+            for _ in range(4)
         ]
 
         super().__init__(
-            mass=2.00,
+            mass=3.10,
             name="Holybro X650",
             overall_length=0.460,
             overall_width=0.460,
