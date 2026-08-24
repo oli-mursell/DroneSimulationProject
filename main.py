@@ -22,7 +22,7 @@ holybro_drone = drone_models.HolybroX650(
     initial_velocity=initial_velocity
 )
 
-holybro_drone.set_motor_throttles([0.7, 0.7, 0.7, 0.7])  # Set all motors to X% throttle
+holybro_drone.set_motor_throttles([0.5, 0.5, 0.5, 0.5])  # Set all motors to X% throttle
 
 # Simulation loop
 
@@ -54,8 +54,44 @@ print(
 
 # Plot
 
+plt.figure(figsize=(10, 8))
+
+
+# Position
+plt.subplot(4, 1, 1)
+
 plt.plot(time_history, position_history)
-plt.xlabel('Time (s)')
-plt.ylabel('Position (m)')
+
+plt.ylabel("Position (m)")
+plt.title("Holybro X650 Simulation")
 plt.grid()
+
+# Velocity
+plt.subplot(4, 1, 2)
+
+plt.plot(time_history, velocity_history)
+
+plt.ylabel("Velocity (m/s)")
+plt.grid()
+
+# Acceleration
+plt.subplot(4, 1, 3)
+
+plt.plot(time_history, acceleration_history)
+
+plt.ylabel("Acceleration (m/s²)")
+plt.grid()
+
+# Total motor thrust
+plt.subplot(4, 1, 4)
+
+plt.plot(time_history, thrust_history)
+
+plt.xlabel("Time (s)")
+plt.ylabel("Thrust (N)")
+plt.grid()
+
+# Prevent graphs overlapping
+plt.tight_layout()
+
 plt.show()

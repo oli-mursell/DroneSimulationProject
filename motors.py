@@ -33,12 +33,7 @@ class Motor:
         self._current_thrust = 0
         self._current_torque = 0
 
-        self.set_throttle(current_throttle)
-
-    @property
-    def max_rpm(self):
-        """ Returns the maximum RPM of the motor """
-        return self._max_rpm
+        self.set_throttle_and_rpm(current_throttle, 0)
 
     @property
     def throttle(self):
@@ -60,15 +55,17 @@ class Motor:
         """ Returns the current torque of the motor in Newton-meters """
         return self._current_torque
 
-    def set_throttle(self, throttle):
-        """ Sets the current throttle as a value between 0 and 1
+    def set_throttle_and_rpm(self, throttle, rpm):
+        """ Sets the current throttle and RPM as values between 0 and 1
 
         Updating throttle also updates the RPM, thrust and torque 
         """
         
         throttle = max(0, min(throttle, 1))
+        rpm = max(0, min(rpm, 1))
 
         self._current_throttle = throttle
+        self._current_rpm = rpm
 
         self._current_rpm = self._interpolate(
             throttle, 
@@ -76,29 +73,15 @@ class Motor:
             self._rpm_data
             )
 
-        self._current_thrust = self._calculate_thrust(self._current_rpm)
-
-        self._current_torque = self._calculate_torque(self._current_rpm)
-
-    def set_rpm(self, rpm):
-        """ Sets the current RPM of the motor
-
-        Updating RPM also updates the throttle, thrust and torque
-        """
-
-        rpm = max(0, min(rpm, self._max_rpm))
-
-        self._current_rpm = rpm
-
         self._current_throttle = self._interpolate(
             rpm, 
             self._rpm_data, 
             self._throttle_data
             )
 
-        self._current_thrust = self._calculate_thrust(rpm)
+        self._current_thrust = self._calculate_thrust(self._current_rpm)
 
-        self._current_torque = self._calculate_torque(rpm)
+        self._current_torque = self._calculate_torque(self._current_rpm)
 
     def _calculate_thrust(self, rpm):
         """ Calculates the thrust of the motor based on the current RPM """

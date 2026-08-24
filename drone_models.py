@@ -1,7 +1,7 @@
 """ Contains different drone models and their properties """
 from drone import Drone
 from motors import Motor
-from motor_data import X650_MOTOR_DATA
+from utilities.motor_data import X650_MOTOR_DATA
 
 class HolybroX650(Drone):
     """
